@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract  class CSDataHelper {
-    private static String csPathConnection = "jdbc:sqlite:prj2//DataBase//CSDataBase.sqlite"  ; 
+    private static String csPathConnection = "jdbc:sqlite:DataBase//CSDataBase.sqlite"  ; 
     private  static Connection csConn  = null ;
 
      protected static synchronized Connection CSopenConnection() throws Exception{
