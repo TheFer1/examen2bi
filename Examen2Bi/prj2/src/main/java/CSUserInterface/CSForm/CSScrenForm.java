@@ -21,7 +21,7 @@ public class CSScrenForm {
 
     public void csPantallaCarga(Stage csPantalla, Group csGroup, Scene csScene) {
         // Ruta de la imagen de fondo
-        Image csbackgroundImage = new Image("biologo.jpg");
+        Image csbackgroundImage = new Image("hormigas.jpg");
         ImageView csImageView = new ImageView(csbackgroundImage);
         csImageView.setFitHeight(800);
         csImageView.setFitWidth(800);

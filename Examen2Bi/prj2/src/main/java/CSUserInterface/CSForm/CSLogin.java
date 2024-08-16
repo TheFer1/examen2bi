@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -15,13 +17,17 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class CSLogin {
-    EcuaFauna2K24A csEcuaFauna2K24A = new EcuaFauna2K24A() ;
-    public void csInicio (Stage csSTage, Group csGroup, Scene csScene){
+    EcuaFauna2K24A csEcuaFauna2K24A = new EcuaFauna2K24A();
+
+    // Almacenar la contraseña encriptada (hash) en lugar de la contraseña en texto plano
+    private static final String STORED_HASHED_PASSWORD = PasswordUtils.hashPassword("1234");
+
+    public void csInicio(Stage csSTage, Group csGroup, Scene csScene) {
         Label csUserLabel = new Label("Usuario:");
         TextField csUserTextField = new TextField();
 
         Label csNameLabel = new Label("Password:");
-        PasswordField csPasswordField = new PasswordField();  
+        PasswordField csPasswordField = new PasswordField();
 
         Button csLoginButton = new Button("Iniciar sesión");
 
@@ -30,13 +36,18 @@ public class CSLogin {
             String csUsername = csUserTextField.getText().trim();
             String csPassword = csPasswordField.getText().trim();
             
-            // Validación básica
-            if ("admin".equals(csUsername) && "1234".equals(csPassword)) {
+            // Validación básica con hash de la contraseña
+            if ("admin".equals(csUsername) && PasswordUtils.hashPassword(csPassword).equals(STORED_HASHED_PASSWORD)) {
                 System.out.println("¡Inicio de sesión exitoso!");
                 csEcuaFauna2K24A.CSFormulario(csSTage);
                 
             } else {
-                System.out.println("Usuario o contraseña incorrectos.");
+                // Mostrar un mensaje de error usando un Alert
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error de Inicio de Sesión");
+                alert.setHeaderText(null);
+                alert.setContentText("Usuario o contraseña incorrectos.");
+                alert.showAndWait();
             }
         });
 
@@ -52,13 +63,13 @@ public class CSLogin {
         csGridPane.add(csPasswordField, 1, 1);
         csGridPane.add(csLoginButton, 1, 2);
 
-        csGridPane.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);"); 
+        csGridPane.setStyle("-fx-background-color: rgba(255, 255, 255, 0.8);");
 
         csNameLabel.setStyle("-fx-background-color: white; -fx-border-color: lightgray; -fx-padding: 5px;");
         csPasswordField.setStyle("-fx-background-color: white; -fx-border-color: lightgray; -fx-padding: 5px;");
         csLoginButton.setStyle("-fx-background-color: lightblue; -fx-border-color: gray;");
 
-        Image backgroundImage = new Image("icon.jpg"); 
+        Image backgroundImage = new Image("icon.jpg");
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setFitWidth(800);
         backgroundImageView.setFitHeight(600);
@@ -73,10 +84,5 @@ public class CSLogin {
         csSTage.setScene(csScene);
 
         csSTage.show();
-
-        
     }
-
-
-
 }

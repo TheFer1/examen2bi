@@ -5,9 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-
+import CSBusinessLogic.CSAlimentoBL;
+import CSBusinessLogic.CSHormigaBL;
 import CSUserInterface.CSForm.CSScrenForm;
 
 
@@ -16,14 +15,23 @@ public class App extends Application {
 
 
     @Override
-    public void start(@SuppressWarnings("exports") Stage csStage) throws IOException {
-        // Crear los controles
-        Group csGroup = new Group(); 
-        Scene csScene = new Scene(csGroup,800,600);
-        CSScrenForm cs = new CSScrenForm() ; 
-        cs.csPantallaCarga(csStage, csGroup, csScene);
-        Image csImage = new Image("icon.jpg");
-        csStage.getIcons().add(csImage);
+    public void start(@SuppressWarnings("exports") Stage csStage) throws Exception {
+        
+      Group csGroup = new Group(); 
+      Scene csScene = new Scene(csGroup,800,600);
+      CSScrenForm cs = new CSScrenForm() ; 
+      cs.csPantallaCarga(csStage, csGroup, csScene);
+       Image csImage = new Image("icon.jpg");
+      csStage.getIcons().add(csImage);
+      CSAlimentoBL csbl = new CSAlimentoBL() ; 
+      CSHormigaBL bl = new CSHormigaBL() ;
+        
+
+
+     
+
+        
+
         
 
 
