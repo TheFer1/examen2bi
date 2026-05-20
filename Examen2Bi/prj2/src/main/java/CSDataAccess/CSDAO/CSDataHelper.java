@@ -5,15 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract  class CSDataHelper {
-    private static String csPathConnection = "jdbc:sqlite:DataBase//CSDataBase.sqlite"  ; 
+    private static String csPathConnection = "jdbc:sqlite:prj2/DataBase/CSDataBase.sqlite"  ; 
     private  static Connection csConn  = null ;
 
      protected static synchronized Connection CSopenConnection() throws Exception{
         try {
-            if(csConn == null)
+            if(csConn == null || csConn.isClosed()) {
                 csConn = DriverManager.getConnection(csPathConnection);
                 System.out.println("conecto");
-
+            }
 
         } catch (SQLException e) {
                 System.out.println("no conecto");
@@ -24,8 +24,10 @@ public abstract  class CSDataHelper {
 
     protected static void closeConnection() throws Exception{
         try {
-            if (csConn != null)
-            csConn.close();
+            if (csConn != null) {
+                csConn.close();
+                csConn = null;
+            }
         } catch (Exception e) {
             throw e;    //new Exception(e,"SQLiteDataHelper", "Fallo la conección con la base de datos");
         }

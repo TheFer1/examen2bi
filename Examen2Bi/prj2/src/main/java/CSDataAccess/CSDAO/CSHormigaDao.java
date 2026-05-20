@@ -12,21 +12,27 @@ public class CSHormigaDao extends CSDataHelper implements CSIDao<CSHormigaDto> {
 
     @Override
     public Boolean csCreate(CSHormigaDto entity) throws Exception {
-        String query = "INSERT INTO CSHormiga" +
-                "(TipoHormiga, idCSSexo, idCSProvincia, idGenoAlimento, idIngestaNativa) VALUES" +
-                "(?, ?, ?, ?, ?)";
-        try {
-            Connection csCon = CSopenConnection();
-            PreparedStatement csStam = csCon.prepareStatement(query);
+        String query = "INSERT INTO CSHormiga (TipoHormiga, idCSSexo, idCSProvincia, idGenoAlimento, idIngestaNativa, Estado) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection csCon = CSopenConnection();
+             PreparedStatement csStam = csCon.prepareStatement(query)) {
             csStam.setString(1, entity.getTipoHormiga());
             csStam.setInt(2, entity.getIdCSSexo());
             csStam.setInt(3, entity.getIdCSProvincia());
-            csStam.setInt(4, entity.getIdGenoAlimento());
-            csStam.setInt(5, entity.getIdIngestaNativa());
-            csStam.executeQuery(); 
+            if (entity.getIdGenoAlimento() != null) {
+                csStam.setInt(4, entity.getIdGenoAlimento());
+            } else {
+                csStam.setNull(4, java.sql.Types.INTEGER);
+            }
+            if (entity.getIdIngestaNativa() != null) {
+                csStam.setInt(5, entity.getIdIngestaNativa());
+            } else {
+                csStam.setNull(5, java.sql.Types.INTEGER);
+            }
+            csStam.setString(6, entity.getEstado());
+            csStam.executeUpdate(); // Use executeUpdate() for insert operations
             return true;
         } catch (SQLException e) {
-            throw e ;
+            throw new Exception("Error al crear hormiga: " + e.getMessage(), e);
         }
     }
 
@@ -37,21 +43,17 @@ public class CSHormigaDao extends CSDataHelper implements CSIDao<CSHormigaDto> {
         + "H.TipoHormiga, "
         + "S.Nombre , "
         + "P.Nombre , "
-        + "G.Nombre , "
-        + "I.Nombre , "
-        + "H.FechaCreacion "
+        + "IFNULL(G.Nombre, 'Ninguno') , "
+        + "IFNULL(I.Nombre, 'Ninguno') , "
+        + "H.FechaCreacion, "
+        + "H.Estado  "
         + "FROM "
         + "CSHormiga H "
-        + "JOIN CSSexo S ON H.idCSSexo = S.idCSSexo "
-        + "JOIN CSProvincia P ON H.idCSProvincia = P.idCSProvincia "
-        + "JOIN CSAlimento G ON H.idGenoAlimento = G.idCSAlimento "
-        + "JOIN CSAlimento I ON H.idIngestaNativa = I.idCSAlimento "
-        + "WHERE "
-        + "H.Estado = 'A' "
-        + "AND S.Estado = 'A' "
-        + "AND P.Estado = 'A' "
-        + "AND G.Estado = 'A' "
-        + "AND I.Estado = 'A' ";
+        + "LEFT JOIN CSSexo S ON H.idCSSexo = S.idCSSexo "
+        + "LEFT JOIN CSProvincia P ON H.idCSProvincia = P.idCSProvincia "
+        + "LEFT JOIN CSAlimento G ON H.idGenoAlimento = G.idCSAlimento "
+        + "LEFT JOIN CSAlimento I ON H.idIngestaNativa = I.idCSAlimento "
+        + "WHERE H.Estado = 'VIVA'";
         List<CSHormigaDto> csList = new ArrayList<>();
         try {
             Connection csCon = CSopenConnection();
@@ -77,16 +79,26 @@ public class CSHormigaDao extends CSDataHelper implements CSIDao<CSHormigaDto> {
 
     @Override
     public boolean csUpdate(CSHormigaDto entity) throws Exception {
-        String query = "UPDATE CSProvincia " +
-                        "SET Nombre = ? " +
-                        "WHERE idCSProvincia = ?";
+        String query = "UPDATE CSHormiga " +
+                        "SET TipoHormiga = ?, idGenoAlimento = ?, idIngestaNativa = ? " +
+                        "WHERE idCSHormiga = ?";
         try {
             Connection csCon = CSopenConnection();
             PreparedStatement csStatement = csCon.prepareStatement(query);
-            csStatement.setInt(1, entity.getIdCSProvincia());
-            csStatement.setInt(2, entity.getIdCSHormiga());
-            csStatement.executeQuery();
-            return true;
+            csStatement.setString(1, entity.getTipoHormiga() != null ? entity.getTipoHormiga() : "Larva");
+            if (entity.getIdGenoAlimento() != null && entity.getIdGenoAlimento() > 0) {
+                csStatement.setInt(2, entity.getIdGenoAlimento());
+            } else {
+                csStatement.setNull(2, java.sql.Types.INTEGER);
+            }
+            if (entity.getIdIngestaNativa() != null && entity.getIdIngestaNativa() > 0) {
+                csStatement.setInt(3, entity.getIdIngestaNativa());
+            } else {
+                csStatement.setNull(3, java.sql.Types.INTEGER);
+            }
+            csStatement.setInt(4, entity.getIdCSHormiga());
+            int rowsUpdated = csStatement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             throw e;
         }
@@ -116,21 +128,18 @@ try {
         + "H.TipoHormiga, "
         + "S.Nombre , "
         + "P.Nombre , "
-        + "G.Nombre , "
-        + "I.Nombre , "
-        + "H.FechaCreacion "
+        + "IFNULL(G.Nombre, 'Ninguno') , "
+        + "IFNULL(I.Nombre, 'Ninguno') , "
+        +"H.FechaCreacion,  "
+        + "H.Estado "
         + "FROM "
         + "CSHormiga H "
-        + "JOIN CSSexo S ON H.idCSSexo = S.idCSSexo "
-        + "JOIN CSProvincia P ON H.idCSProvincia = P.idCSProvincia "
-        + "JOIN CSAlimento G ON H.idGenoAlimento = G.idCSAlimento "
-        + "JOIN CSAlimento I ON H.idIngestaNativa = I.idCSAlimento "
+        + "LEFT JOIN CSSexo S ON H.idCSSexo = S.idCSSexo "
+        + "LEFT JOIN CSProvincia P ON H.idCSProvincia = P.idCSProvincia "
+        + "LEFT JOIN CSAlimento G ON H.idGenoAlimento = G.idCSAlimento "
+        + "LEFT JOIN CSAlimento I ON H.idIngestaNativa = I.idCSAlimento "
         + "WHERE "
-        + "H.Estado = 'A' "
-        + "AND S.Estado = 'A' "
-        + "AND P.Estado = 'A' "
-        + "AND G.Estado = 'A' "
-        + "AND I.Estado = 'A' "
+        + "H.Estado = 'VIVA' "
         + "AND H.idCSHormiga =" + id;  // Parámetro del ID
 
   // Inicializa a null en caso de que no se encuentre el registro
@@ -155,13 +164,6 @@ try {
                 "A", // Estado, asumiendo que el estado 'A' es por defecto o calculado en la lógica
                 csRs.getString(6) // FechaCreacion
                 );
-                System.out.println("Resultset");
-                System.out.println(csRs.getString(1));
-                System.out.println(csRs.getString(2));
-                System.out.println(csRs.getString(3));
-                System.out.println(csRs.getString(4));
-                System.out.println(csRs.getString(5));
-                System.out.println(csRs.getString(6));
     
         } else {
             // Manejar el caso en que no se encuentra el dato, opcional

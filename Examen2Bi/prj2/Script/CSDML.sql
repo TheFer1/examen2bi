@@ -105,13 +105,14 @@ SET Nombre = ?
 
 
 
- SELECT 
+SELECT 
     H.TipoHormiga, 
     S.Nombre AS NombreSexo, 
     P.Nombre AS NombreProvincia, 
     G.Nombre AS NombreGenoAlimento, 
     I.Nombre AS NombreIngestaNativa, 
-    H.FechaCreacion
+    H.FechaCreacion,
+    H.Estado AS EstadoHormiga
 FROM 
     CSHormiga H
 JOIN 
@@ -123,7 +124,7 @@ JOIN
 JOIN 
     CSAlimento I ON H.idIngestaNativa = I.idCSAlimento 
 WHERE 
-    H.Estado = 'A' 
+    H.Estado = 'VIVA' 
     AND S.Estado = 'A' 
     AND P.Estado = 'A' 
     AND G.Estado = 'A' 

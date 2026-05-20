@@ -16,6 +16,21 @@ public class CSHormigaDto {
     private String FechaCreacion;
 
     
+    public CSHormigaDto(String tipoHormiga, Integer idCSSexo, Integer idGenoAlimento, Integer idIngestaNativa) {
+        TipoHormiga = tipoHormiga;
+        this.idCSSexo = idCSSexo;
+        this.idGenoAlimento = idGenoAlimento;
+        this.idIngestaNativa = idIngestaNativa;
+    }
+
+    public CSHormigaDto(String tipoHormiga, Integer idCSSexo, Integer idCSProvincia, Integer idGenoAlimento, Integer idIngestaNativa, String estado) {
+        this.TipoHormiga = tipoHormiga;
+        this.idCSSexo = idCSSexo;
+        this.idCSProvincia = idCSProvincia;
+        this.idGenoAlimento = idGenoAlimento;
+        this.idIngestaNativa = idIngestaNativa;
+        this.Estado = estado;
+    }
 
     public CSHormigaDto(String tipoHormiga, String nombreSexo, String nombreProvincia, String nombreGenoAlimento,
             String nombreIngestaNativa, String fechaCreacion) {
@@ -81,6 +96,8 @@ public class CSHormigaDto {
         Estado = estado;
         FechaCreacion = fechaCreacion;
     }
+    
+    
 
 
 
@@ -149,7 +166,7 @@ public class CSHormigaDto {
     }
 
     public String getEstado() {
-        return Estado;
+        return "VIVA";
     }
 
     public void setEstado(String estado) {

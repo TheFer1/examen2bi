@@ -1,0 +1,20 @@
+@startuml
+
+actor "Usuario" as Usuario
+actor "Administrador" as Administrador
+
+usecase "Iniciar sesión" as UC1
+usecase "Verificar credenciales" as UC2
+usecase "Mostrar formulario" as UC3
+usecase "Consultar alimentos" as UC4
+usecase "Consultar ingesta" as UC5
+usecase "Mostrar splash" as UC6
+
+Usuario --> UC1
+UC1 --> UC2 : include
+UC2 --> UC3 : extend
+UC3 --> UC4 : include
+UC3 --> UC5 : include
+UC6 <-- Administrador
+
+@enduml
