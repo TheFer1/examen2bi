@@ -72,23 +72,12 @@ CREATE TABLE CSHormiga(
     ,TipoHormiga        VARCHAR(100) NOT NULL 
     ,idCSSexo           INTEGER NOT NULL REFERENCES CSSexo(idCSSexo)
     ,idCSProvincia      INTEGER NOT NULL REFERENCES CSProvincia(idCSProvincia)
-    ,idGenoAlimento     INTEGER NOT NULL REFERENCES CSAlimento(idCSAlimento)
-    ,idIngestaNativa    INTEGER NOT NULL REFERENCES CSAlimento(idCSAlimento)
-    ,Estado         VARCHAR(1) DEFAULT 'A' CHECK (Estado IN ('X', 'A'))
+    ,idGenoAlimento     INTEGER  REFERENCES CSAlimento(idCSAlimento)
+    ,idIngestaNativa    INTEGER  REFERENCES CSAlimento(idCSAlimento)
+    ,Estado             VARCHAR(15) DEFAULT 'VIVA' CHECK (Estado IN ('MUERTA', 'VIVA'))
     ,FechaCreacion      DATETIME    DEFAULT(datetime('now','localtime'))
 
 );
-
-SELECT H.TipoHormiga, S.Nombre, P.Nombre, G.Nombre, I.Nombre, H.FechaCreacion
-FROM CSHormiga H
-JOIN CSSexo S ON H.idCSSexo = S.idCSSexo
-JOIN CSProvincia P ON H.idCSProvincia = P.idCSProvincia
-JOIN CSAlimento G ON H.idGenoAlimento = G.idCSAlimento
-JOIN CSAlimento I ON H.idIngestaNativa = I.idCSAlimento
-WHERE H.Estado LIKE 'A' AND S.Estado LIKE 'A' AND P.Estado LIKE 'A' AND G.Estado LIKE 'A' AND I.Estado LIKE 'A';
-
-
-
 
 
 

@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.Group;
 import javafx.stage.Stage;
-import CSBusinessLogic.CSAlimentoBL;
 import CSBusinessLogic.CSHormigaBL;
 import CSUserInterface.CSForm.CSScrenForm;
 
@@ -23,9 +22,10 @@ public class App extends Application {
       cs.csPantallaCarga(csStage, csGroup, csScene);
        Image csImage = new Image("icon.jpg");
       csStage.getIcons().add(csImage);
-      CSAlimentoBL csbl = new CSAlimentoBL() ; 
       CSHormigaBL bl = new CSHormigaBL() ;
-        
+
+     System.out.println(bl.csGetAll().toString());
+
 
 
      

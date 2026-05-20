@@ -20,7 +20,7 @@ public class CSLogin {
     EcuaFauna2K24A csEcuaFauna2K24A = new EcuaFauna2K24A();
 
     // Almacenar la contraseña encriptada (hash) en lugar de la contraseña en texto plano
-    private static final String STORED_HASHED_PASSWORD = PasswordUtils.hashPassword("1234");
+    private static final String STORED_HASHED_PASSWORD = PasswordUtils.hashPassword("123456");
 
     public void csInicio(Stage csSTage, Group csGroup, Scene csScene) {
         Label csUserLabel = new Label("Usuario:");
@@ -37,7 +37,7 @@ public class CSLogin {
             String csPassword = csPasswordField.getText().trim();
             
             // Validación básica con hash de la contraseña
-            if ("admin".equals(csUsername) && PasswordUtils.hashPassword(csPassword).equals(STORED_HASHED_PASSWORD)) {
+            if ("pat_mic".equals(csUsername) && PasswordUtils.hashPassword(csPassword).equals(STORED_HASHED_PASSWORD)) {
                 System.out.println("¡Inicio de sesión exitoso!");
                 csEcuaFauna2K24A.CSFormulario(csSTage);
                 

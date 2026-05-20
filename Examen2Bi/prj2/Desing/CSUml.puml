@@ -1,0 +1,110 @@
+@startuml
+
+package CSBusinessLogic {
+    class CSAlimentoBL {
+        - CSAlimentoDao csAlimentoDao
+        + CSAlimentoBL()
+        + boolean csAdd(CSAlimentoDto)
+        + List<CSAlimentoDto> csGetAll()
+        + boolean csUpdate(CSAlimentoDto)
+        + boolean csDelete(int)
+        + CSAlimentoDto csGetBy(int)
+    }
+
+    class CSHormigaBL {
+        - CSHormigaDao csHormigaDao
+        + CSHormigaBL()
+        + boolean csAdd(CSHormigaDto)
+        + List<CSHormigaDto> csGetAll()
+        + boolean csUpdate(CSHormigaDto)
+        + boolean csDelete(int)
+        + CSHormigaDto csGetBy(int)
+    }
+
+    class CSPaisBL {
+        - CSPaisDao csPaisDao
+        + CSPaisBL()
+        + boolean csAdd(CSPaisDto)
+        + List<CSPaisDto> csGetAll()
+        + boolean csUpdate(CSPaisDto)
+        + boolean csDelete(int)
+        + CSPaisDto csGetBy(int)
+    }
+
+    class CSProvinciaBL {
+        - CSProvinciaDao csProvinciaDao
+        + CSProvinciaBL()
+        + boolean csAdd(CSProvinciaDto)
+        + List<CSProvinciaDto> csGetAll()
+        + boolean csUpdate(CSProvinciaDto)
+        + boolean csDelete(int)
+        + CSProvinciaDto csGetBy(int)
+    }
+
+    class CSRegionBL {
+        - CSRegionDao csRegionDao
+        + CSRegionBL()
+        + boolean csAdd(CSRegionDto)
+        + List<CSRegionDto> getAll()
+        + boolean update(CSRegionDto)
+        + boolean delete(int)
+        + CSRegionDto getBy(int)
+    }
+
+    class CSSexoBL {
+        - CSSexoDao csSexoDao
+        + CSSexoBL()
+        + boolean csAdd(CSSexoDto)
+        + List<CSSexoDto> csGetAll()
+        + boolean csUpdate(CSSexoDto)
+        + boolean csDelete(int)
+        + CSSexoDto csGetBy(int)
+    }
+
+    class CSTipoAlimentoBL {
+        - CSTipoAlimentoDao csTipoAlimentoDAO
+        + CSTipoAlimentoBL()
+        + boolean csAdd(CSTipoAlimentoDto)
+        + List<CSTipoAlimentoDto> csGetAll()
+        + boolean csUpdate(CSTipoAlimentoDto)
+        + boolean csDelete(int)
+        + CSTipoAlimentoDto csGetBy(int)
+    }
+}
+
+package CSDataAccess.CSDAO {
+    class CSAlimentoDao
+    class CSHormigaDao
+    class CSPaisDao
+    class CSProvinciaDao
+    class CSRegionDao
+    class CSSexoDao
+    class CSTipoAlimentoDao
+}
+
+package CSDataAccess.CSDTO {
+    class CSAlimentoDto
+    class CSHormigaDto
+    class CSPaisDto
+    class CSProvinciaDto
+    class CSRegionDto
+    class CSSexoDto
+    class CSTipoAlimentoDto
+}
+
+CSAlimentoBL --> CSAlimentoDao
+CSAlimentoBL --> CSAlimentoDto
+CSHormigaBL --> CSHormigaDao
+CSHormigaBL --> CSHormigaDto
+CSPaisBL --> CSPaisDao
+CSPaisBL --> CSPaisDto
+CSProvinciaBL --> CSProvinciaDao
+CSProvinciaBL --> CSProvinciaDto
+CSRegionBL --> CSRegionDao
+CSRegionBL --> CSRegionDto
+CSSexoBL --> CSSexoDao
+CSSexoBL --> CSSexoDto
+CSTipoAlimentoBL --> CSTipoAlimentoDao
+CSTipoAlimentoBL --> CSTipoAlimentoDto
+
+@enduml
